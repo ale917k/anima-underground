@@ -1,13 +1,25 @@
 import Image from "next/image";
-import { media, site } from "@/lib/site";
+import type { GallerySection, Settings } from "@/lib/content/schema";
 import { Reveal } from "./Reveal";
 import { clsx } from "@/lib/clsx";
 
 /**
  * Image-led gallery. A mixed-size grid (first tile spans 2x2) of next/image
- * shots with a hover zoom + neon ring. Placeholders for now — see `media`.
+ * shots with a hover zoom + neon ring. Images + copy are owner-editable; the
+ * CTA's {handle} token is filled from settings.socials.
  */
-export function Gallery() {
+export function Gallery({
+  data,
+  settings,
+}: {
+  data: GallerySection;
+  settings: Settings;
+}) {
+  const cta = data.ctaLabel.replace(
+    "{handle}",
+    settings.socials.instagramHandle,
+  );
+
   return (
     <section
       id="galleria"
@@ -16,21 +28,18 @@ export function Gallery() {
       <div className="mx-auto max-w-7xl">
         <Reveal className="mb-12 flex flex-col gap-3">
           <span className="text-sm font-semibold tracking-[0.3em] text-neon-cyan uppercase">
-            Galleria
+            {data.eyebrow}
           </span>
           <h2 className="font-display text-4xl font-bold tracking-tight text-ink uppercase md:text-6xl">
-            Le notti all&apos;Anima
+            {data.heading}
           </h2>
-          <p className="max-w-2xl text-lg text-ink-dim">
-            Luci, drag, musica e tanta gente come te. Un assaggio dell&apos;
-            atmosfera — il resto vienitelo a vivere.
-          </p>
+          <p className="max-w-2xl text-lg text-ink-dim">{data.intro}</p>
         </Reveal>
 
         <div className="grid auto-rows-[200px] grid-cols-2 gap-3 md:auto-rows-[240px] md:grid-cols-4">
-          {media.gallery.map((img, i) => (
+          {data.images.map((img, i) => (
             <Reveal
-              key={img.src}
+              key={img.id}
               delay={i * 60}
               className={clsx(
                 "group relative overflow-hidden rounded-glam border border-line",
@@ -57,12 +66,12 @@ export function Gallery() {
 
         <Reveal className="mt-8 text-center">
           <a
-            href={site.socials.instagram}
+            href={settings.socials.instagram}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block rounded-pill border border-line px-6 py-3 text-sm font-semibold text-ink transition-all hover:border-neon-magenta hover:shadow-neon"
           >
-            Vedi tutto su Instagram {site.socials.instagramHandle} →
+            {cta}
           </a>
         </Reveal>
       </div>

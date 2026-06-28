@@ -1,10 +1,12 @@
 import type { CSSProperties } from "react";
-import { nights, type Night } from "@/data/nights";
+import type { NightItem, NightsSection } from "@/lib/content/schema";
 import { Reveal } from "./Reveal";
 
-function NightCard({ night, index }: { night: Night; index: number }) {
+function NightCard({ night, index }: { night: NightItem; index: number }) {
   // expose the per-night accent as --accent for use in this card's styles
-  const style = { "--accent": `var(${night.accentVar})` } as CSSProperties;
+  const style = {
+    "--accent": `var(--color-night-${night.accent})`,
+  } as CSSProperties;
 
   return (
     <Reveal delay={index * 70} className="h-full">
@@ -49,7 +51,7 @@ function NightCard({ night, index }: { night: Night; index: number }) {
   );
 }
 
-export function Nights() {
+export function Nights({ data }: { data: NightsSection }) {
   return (
     <section
       id="serate"
@@ -58,20 +60,17 @@ export function Nights() {
       <div className="mx-auto max-w-7xl">
         <Reveal className="mb-12 flex flex-col gap-3">
           <span className="text-sm font-semibold tracking-[0.3em] text-neon-magenta uppercase">
-            Le serate
+            {data.eyebrow}
           </span>
           <h2 className="font-display text-4xl font-bold tracking-tight text-ink uppercase md:text-6xl">
-            Ogni notte ha la sua anima
+            {data.heading}
           </h2>
-          <p className="max-w-2xl text-lg text-ink-dim">
-            Dal venerdì ignorante alle regine del drag, fino al ritmo latino del
-            sabato. Trova la tua.
-          </p>
+          <p className="max-w-2xl text-lg text-ink-dim">{data.intro}</p>
         </Reveal>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {nights.map((night, i) => (
-            <NightCard key={night.slug} night={night} index={i} />
+          {data.items.map((night, i) => (
+            <NightCard key={night.id} night={night} index={i} />
           ))}
         </div>
       </div>

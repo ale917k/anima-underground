@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { media } from "@/lib/site";
+import type { HeroMedia } from "@/lib/content/schema";
 
 /**
  * Looping video background for the hero.
@@ -11,7 +11,7 @@ import { media } from "@/lib/site";
  * - Respects prefers-reduced-motion: we simply don't start playback, leaving
  *   the poster still. No-JS also falls back to the poster.
  */
-export function HeroVideo() {
+export function HeroVideo({ media }: { media: HeroMedia }) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export function HeroVideo() {
       <video
         ref={ref}
         className="h-full w-full object-cover"
-        poster={media.hero.poster}
+        poster={media.poster}
         muted
         loop
         playsInline
@@ -36,8 +36,8 @@ export function HeroVideo() {
         aria-hidden="true"
         tabIndex={-1}
       >
-        <source src={media.hero.webm} type="video/webm" />
-        <source src={media.hero.mp4} type="video/mp4" />
+        <source src={media.webm} type="video/webm" />
+        <source src={media.mp4} type="video/mp4" />
       </video>
 
       {/* Legibility scrim — darker at top/bottom, fades to solid void so the

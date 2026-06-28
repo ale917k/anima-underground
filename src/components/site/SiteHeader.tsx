@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { nav, site } from "@/lib/site";
+import type { Settings } from "@/lib/content/schema";
+import { NAV } from "@/lib/nav";
 import { clsx } from "@/lib/clsx";
 import { Wordmark } from "./Wordmark";
 
-export function SiteHeader() {
+export function SiteHeader({ settings }: { settings: Settings }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -25,12 +26,12 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
-        <Link href="/" aria-label={site.name} className="shrink-0">
+        <Link href="/" aria-label={settings.identity.name} className="shrink-0">
           <Wordmark size="sm" />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {nav.map((item) => (
+          {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -44,7 +45,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <Link
-            href={site.socials.instagram}
+            href={settings.socials.instagram}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden rounded-pill border border-line px-4 py-2 text-sm font-semibold text-ink transition-all hover:border-neon-magenta hover:shadow-neon sm:inline-block"
@@ -68,7 +69,7 @@ export function SiteHeader() {
       {/* mobile menu */}
       {open && (
         <nav className="glass mx-5 mt-3 flex flex-col gap-1 rounded-glam p-4 md:hidden">
-          {nav.map((item) => (
+          {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -79,7 +80,7 @@ export function SiteHeader() {
             </Link>
           ))}
           <Link
-            href={site.socials.instagram}
+            href={settings.socials.instagram}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-2 rounded-pill bg-neon-magenta px-3 py-2 text-center text-base font-semibold text-white"

@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { nav, site } from "@/lib/site";
+import type { Settings } from "@/lib/content/schema";
+import { telHref } from "@/lib/content/schema";
+import { NAV } from "@/lib/nav";
 import { Wordmark } from "./Wordmark";
 
-export function SiteFooter() {
-  const { nap, socials } = site;
+export function SiteFooter({ settings }: { settings: Settings }) {
+  const { identity, nap, socials } = settings;
   const year = 2026; // static (no build-time Date) — bump as needed
 
   return (
@@ -14,7 +16,7 @@ export function SiteFooter() {
           <div>
             <Wordmark size="lg" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-dim">
-              Il locale LGBTQ+ di Padova dal {site.since}. Music, Dance &amp;
+              Il locale LGBTQ+ di Padova dal {identity.since}. Music, Dance &amp;
               Drinks.{" "}
               <span className="text-pride font-semibold">Be yourself.</span>
             </p>
@@ -25,7 +27,7 @@ export function SiteFooter() {
             <span className="text-xs font-semibold tracking-[0.2em] text-ink-dim uppercase">
               Naviga
             </span>
-            {nav.map((item) => (
+            {NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -47,7 +49,7 @@ export function SiteFooter() {
               {nap.postalCode} {nap.locality} ({nap.province})
             </address>
             <a
-              href={nap.phoneHref}
+              href={telHref(nap.phone)}
               className="text-sm text-ink-dim transition-colors hover:text-ink"
             >
               {nap.phone}
@@ -83,7 +85,7 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-6 text-xs text-ink-dim sm:flex-row">
           <p>
-            © {year} {site.name} · {nap.locality}
+            © {year} {identity.name} · {nap.locality}
           </p>
           <p className="text-pride font-semibold">
             Proud to be · be yourself 🌈

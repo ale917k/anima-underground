@@ -1,11 +1,19 @@
-import { site } from "@/lib/site";
+import type { Settings, VisitSection } from "@/lib/content/schema";
+import { telHref } from "@/lib/content/schema";
 
 /**
- * "Dove & quando" — hours + address. Reads the NAP single source (lib/site).
- * In Phase 1 this same data comes from the DB and feeds NightClub schema too.
+ * "Dove & quando" — hours + address. Hours/labels are owner-editable; the
+ * address & phone come from the shared NAP settings (also feed footer + future
+ * NightClub schema).
  */
-export function Visit() {
-  const { nap, hours } = site;
+export function Visit({
+  data,
+  settings,
+}: {
+  data: VisitSection;
+  settings: Settings;
+}) {
+  const { nap } = settings;
   return (
     <section
       id="dove"
@@ -15,40 +23,33 @@ export function Visit() {
         {/* Hours */}
         <div className="rounded-glam border border-line bg-surface p-8 md:p-10">
           <span className="text-sm font-semibold tracking-[0.3em] text-neon-cyan uppercase">
-            Quando
+            {data.hoursEyebrow}
           </span>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink uppercase md:text-4xl">
-            Orari
+            {data.hoursHeading}
           </h2>
           <ul className="mt-6 divide-y divide-line">
-            {hours.map((h) => (
+            {data.hours.map((h) => (
               <li
-                key={h.day}
+                key={h.id}
                 className="flex items-center justify-between py-3.5"
               >
                 <span className="font-medium text-ink">{h.label}</span>
-                <span className="text-ink-dim">
-                  {"open" in h && h.open
-                    ? `${h.open} – ${h.close}`
-                    : "Da confermare"}
-                </span>
+                <span className="text-ink-dim">{h.value}</span>
               </li>
             ))}
           </ul>
-          <p className="mt-5 text-sm text-ink-dim">
-            Gli orari possono variare in occasione di eventi speciali. Segui
-            Instagram per la programmazione aggiornata.
-          </p>
+          <p className="mt-5 text-sm text-ink-dim">{data.hoursNote}</p>
         </div>
 
         {/* Address */}
         <div className="flex flex-col justify-between rounded-glam border border-line bg-surface p-8 md:p-10">
           <div>
             <span className="text-sm font-semibold tracking-[0.3em] text-neon-magenta uppercase">
-              Dove
+              {data.placeEyebrow}
             </span>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink uppercase md:text-4xl">
-              Come arrivare
+              {data.placeHeading}
             </h2>
             <address className="mt-6 text-lg leading-relaxed text-ink not-italic">
               {nap.street}
@@ -59,7 +60,7 @@ export function Visit() {
             </address>
             <p className="mt-4 text-ink-dim">
               <a
-                href={nap.phoneHref}
+                href={telHref(nap.phone)}
                 className="font-medium text-ink transition-colors hover:text-neon-magenta"
               >
                 {nap.phone}
@@ -73,7 +74,7 @@ export function Visit() {
             rel="noopener noreferrer"
             className="mt-8 inline-flex w-fit items-center gap-2 rounded-pill bg-neon-magenta px-6 py-3 font-semibold text-white shadow-neon transition-transform hover:scale-[1.03]"
           >
-            Apri su Google Maps →
+            {data.mapsCtaLabel}
           </a>
         </div>
       </div>

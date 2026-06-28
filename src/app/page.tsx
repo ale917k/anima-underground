@@ -1,27 +1,12 @@
-import { AmbientBackground } from "@/components/site/AmbientBackground";
-import { SiteHeader } from "@/components/site/SiteHeader";
-import { Hero } from "@/components/site/Hero";
-import { Marquee } from "@/components/site/Marquee";
-import { Nights } from "@/components/site/Nights";
-import { Gallery } from "@/components/site/Gallery";
-import { Ethos } from "@/components/site/Ethos";
-import { Visit } from "@/components/site/Visit";
-import { SiteFooter } from "@/components/site/SiteFooter";
+import { SiteShell } from "@/components/site/SiteShell";
+import { getPublishedContent } from "@/lib/content/store";
 
-export default function Home() {
-  return (
-    <>
-      <AmbientBackground />
-      <SiteHeader />
-      <main>
-        <Hero />
-        <Marquee />
-        <Nights />
-        <Gallery />
-        <Ethos />
-        <Visit />
-      </main>
-      <SiteFooter />
-    </>
-  );
+/**
+ * Public homepage. Renders the published content document server-side. After
+ * the owner publishes from the dashboard, `revalidatePath("/")` regenerates
+ * this page, so edits go live without a redeploy.
+ */
+export default async function Home() {
+  const content = await getPublishedContent();
+  return <SiteShell content={content} />;
 }
