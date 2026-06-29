@@ -173,30 +173,32 @@ body {
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
+/* Snappy entrance — fast enough that the LCP (hero wordmark) paints almost
+   immediately, while keeping the staggered neon flourish. */
 .enter {
-  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .enter-1 {
-  animation-delay: 0.06s;
+  animation-delay: 0.03s;
 }
 .enter-2 {
-  animation-delay: 0.14s;
+  animation-delay: 0.06s;
 }
 .enter-3 {
-  animation-delay: 0.22s;
+  animation-delay: 0.09s;
 }
 .enter-4 {
-  animation-delay: 0.3s;
+  animation-delay: 0.13s;
 }
 .enter-5 {
-  animation-delay: 0.4s;
+  animation-delay: 0.18s;
 }
 
 /* Scroll reveal — JS adds [data-visible]; default (and no-JS via <noscript>)
