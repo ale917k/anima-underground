@@ -11,6 +11,15 @@
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
+  "browserslist": [
+    "chrome >= 109",
+    "edge >= 109",
+    "firefox >= 109",
+    "safari >= 16",
+    "ios_saf >= 16",
+    "samsung >= 21",
+    "not dead"
+  ],
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1075.0",
     "@puckeditor/core": "^0.22.0",

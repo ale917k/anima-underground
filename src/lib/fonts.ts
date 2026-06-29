@@ -10,7 +10,12 @@ export const clashDisplay = localFont({
   src: "../fonts/ClashDisplay-Variable.woff2",
   variable: "--font-clash",
   weight: "200 700",
-  display: "swap",
+  // `optional`: the hero wordmark (the LCP) renders immediately in the metric-
+  // matched fallback and only upgrades to ClashDisplay if it's already cached/
+  // fast — so the largest paint never waits on (or repaints from) the font swap.
+  // `adjustFontFallback` defaults to a metric-matched fallback (no CLS).
+  display: "optional",
+  preload: true,
 });
 
 /** Body / UI face — Inter. */
