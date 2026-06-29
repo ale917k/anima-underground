@@ -50,7 +50,9 @@ export const defaultContent: SiteContent = {
       taglineLine: "Music · Dance · Drinks",
       media: {
         poster: "/media/hero-poster.jpg",
-        webm: "/media/hero.webm",
+        // mp4 (H.264) only by default — universal + hardware-decoded on mobile,
+        // and smaller than VP9 here. webm is optional (used if set).
+        webm: "",
         mp4: "/media/hero.mp4",
       },
       ctaPrimary: { label: "Scopri le serate", href: "/#serate" },
